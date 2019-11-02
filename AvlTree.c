@@ -3,13 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 struct Node; // A forward declaration
 typedef struct Node* NodePointer;
 
 // Macro to free any pointer and assign it to NULL
-#define free_and_null(ptr){        \
-				   \
+#define free_and_null(ptr){\
+				           \
 		free(ptr);         \
 		ptr = NULL;        \
 }
@@ -167,6 +166,40 @@ void print_tree(Tree *tree){
 
 	recursive_print_node(tree->root, 0); // 0 - no indentation in output for root node
 }
+
+//----------------------------------------
+// The four rotate functions
+// Pass in the old root of the subtree
+// Returns the new root of the subtree
+
+NodePointer rotate_left(NodePointer node){
+
+	NodePointer other = node->right;
+	node->right = other->left;
+	other->left = node;
+	return other; 
+}
+
+NodePointer rotate_right(NodePointer node){
+
+	NodePointer other = node->left;
+	node->left = other->right;
+	other->right = node;
+	return other; 
+}
+
+NodePointer rotate_left_right(NodePointer node){
+
+	node->left = rotate_left(node->left);
+	return rotate_right(node);
+}
+
+NodePointer rotate_right_left(NodePointer node){
+
+	node->right = rotate_right(node->right);
+	return rotate_left(node);
+}
+//---------------------------------------
 
 // Driver function
 void main(){
